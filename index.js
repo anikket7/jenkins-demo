@@ -6,6 +6,10 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 }   );      
 
+app.get('lala',(req,res)=>{
+    res.send('This is lala route');             
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 }); 

@@ -1,11 +1,17 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:lts-jdk17
 
 USER root
 
-# Install Docker CLI only (not daemon)
+# Install Docker CLI
 RUN apt-get update && \
     apt-get install -y docker.io && \
-    apt-get clean && \
-    rm -rf /var/lib/docker
+    apt-get clean
+
+# Add jenkins user to docker group
+RUN usermod -aG docker jenkins
+
+# Install sudo to run docker commands
+RUN apt-get install -y sudo && \
+    echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER jenkins

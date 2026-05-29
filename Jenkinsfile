@@ -60,7 +60,7 @@ pipeline
         stage("stop the old container")
         {
             steps{
-                bat "docker stop ${CONTAINER_NAME}|| true"
+                bat "docker rm -f ${CONTAINER_NAME}|| true"
             }
         }
 

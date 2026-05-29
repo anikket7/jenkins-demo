@@ -30,14 +30,14 @@ pipeline
         stage("install dependencies")
         {
             steps{
-                bat "npm install"
+                sh "npm install"
             }
         }
 
         stage("build docker image")
         {
             steps{
-                bat "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
             }
         }
 
@@ -50,7 +50,7 @@ pipeline
                         usernameVariable:"DOCKER_NAME",
                         passwordVariable:"DOCKER_PASSWORD"
                     )
-                ]){bat """
+                ]){sh """
                     echo %DOCKER_PASSWORD%| docker login -u %DOCKER_NAME% --password-stdin
                     docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                  """}
@@ -60,14 +60,14 @@ pipeline
         stage("stop the old container")
         {
             steps{
-                bat "docker stop ${CONTAINER_NAME}|| true"
+                sh "docker stop ${CONTAINER_NAME}|| true"
             }
         }
 
         stage("run the new container")
         {
             steps{
-                bat "docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                sh "docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${DOCKER_IMAGE}:${DOCKER_TAG}"
             }
         }
     }

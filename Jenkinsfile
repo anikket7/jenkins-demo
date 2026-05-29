@@ -4,7 +4,7 @@ pipeline
     agent any
 
     tools{
-        nodejs "nodejs"
+        nodejs "NODE22"
     }
 
     triggers{
